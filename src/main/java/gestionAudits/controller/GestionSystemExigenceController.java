@@ -9,11 +9,13 @@ import java.util.List;
 
 public class GestionSystemExigenceController {
     public static boolean ajouterSystemExigence(SystemeExigence systemeExigence) {
-        int id = GestionAutreExigenceData.insert(systemeExigence.getAutreExigence());
-        systemeExigence.getAutreExigence().setId(id);
-        if (id!=-1)
-            return GestionSystemExigenceData.insert(systemeExigence);
-        return false;
+        if(systemeExigence.getAutreExigence()!=null){
+            int id = GestionAutreExigenceData.insert(systemeExigence.getAutreExigence());
+            systemeExigence.getAutreExigence().setId(id);
+            if (id != -1)
+                return GestionSystemExigenceData.insert(systemeExigence);
+        }
+        return GestionSystemExigenceData.insert(systemeExigence);
     }
     public static List<SystemeExigence> getSystemExigence(Audit audit) {
         List<SystemeExigence> list=GestionSystemExigenceData.selectAll(audit.getId());

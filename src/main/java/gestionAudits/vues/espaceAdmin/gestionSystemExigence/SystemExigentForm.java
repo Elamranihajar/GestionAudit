@@ -25,6 +25,7 @@ public class SystemExigentForm extends JDialog {
     private JTextArea autreExigenceDescriptionField;
     private JComboBox<String> autreExigenceTypeComboBox;
     private SystemeExigence systemeExigence;
+    private JCheckBox autreExigenceCheckbox;
 
     public SystemExigentForm(Frame parent, Audit audit,SystemeExigence systemeExigence) {
         super(parent, "Définir un system d'exigence", true);
@@ -80,7 +81,7 @@ public class SystemExigentForm extends JDialog {
         gbc.gridx = 0;
         gbc.gridy = 3;
         gbc.gridwidth = 2;
-        JCheckBox autreExigenceCheckbox = new JCheckBox("Ajouter une autre exigence");
+        autreExigenceCheckbox = new JCheckBox("Ajouter une autre exigence");
         formPanel.add(autreExigenceCheckbox, gbc);
 
         // Panel pour "Autre exigence" (masqué au départ)
@@ -169,11 +170,13 @@ public class SystemExigentForm extends JDialog {
             systemeExigence.setAuditeur((User) auditeurComboBox.getSelectedItem());
             systemeExigence.setClauseStandard((ClauseStandard) clauseStandardComboBox.getSelectedItem());
             systemeExigence.setSystemeManagement((SystemeManagement) systemeManagementComboBox.getSelectedItem());
-            AutreExigence autreExigence=new AutreExigence();
+        if(autreExigenceCheckbox.isSelected()) {
+            AutreExigence autreExigence = new AutreExigence();
             autreExigence.setName(autreExigenceNameField.getText().trim());
             autreExigence.setDescription(autreExigenceDescriptionField.getText().trim());
             autreExigence.setType(autreExigenceTypeComboBox.getSelectedItem().toString());
             systemeExigence.setAutreExigence(autreExigence);
+        };
         if(this.systemeExigence!=null) {
             systemeExigence.getAutreExigence().setId(this.systemeExigence.getAutreExigence().getId());
             systemeExigence.setId(this.systemeExigence.getId());
